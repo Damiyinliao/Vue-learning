@@ -10,6 +10,9 @@
         <h2>{{ person.age }}</h2>
         <button @click="person.name+='!'">修改姓名</button>
         <button @click="person.age++">增加年龄</button>
+
+        <h2>{{ person.life.job.salary }}</h2>
+        <button @click="person.life.job.salary++">涨薪</button>
     </div>
 </template>
 
@@ -39,7 +42,12 @@ export default {
         let msg = ref("你好啊");
         let person = reactive({
             name: "贺兰",
-            age: 23
+            age: 23,
+            life: {
+                job: {
+                    salary: 20
+                }
+            }
         });
         // 第一个参数：要监视的数据。第二个数据：监视回调函数。第三个参数：监视的配置信息
         // watch()
@@ -60,15 +68,20 @@ export default {
             console.log("person变化了", newValue, oldValue);
         }, {deep: false});*/
 
-        //情况四：监视reactive所定义的一个响应式数据中的某个属性
+        //情况四：监视reactive所定义的一个响应式数据中的某个属性，需要写箭头函数
         // watch(()=>person.name, (newValue,oldValue)=>{
         //     console.log(newValue,oldValue);
         // })
 
         //情况五：监视reactive所定义的一个响应式数据中的某些属性
-        watch([()=>person.name, ()=>person.age], (newValue,oldValue)=>{
-            console.log(newValue,oldValue);
-        })
+        // watch([()=>person.name, ()=>person.age], (newValue,oldValue)=>{
+        //     console.log(newValue,oldValue);
+        // })
+
+        //特殊情况
+        watch(()=>person.life, (newValue, oldValue)=>{
+            console.log("person的life的salary变化了", newValue, oldValue);
+        },{deep: true});//此处由于监视的是creactive所定义的对象中的某个属性，所以deep配置有效
         return {
             sum,
             msg,
