@@ -38,7 +38,7 @@ export default {
     }
     .dialog{
         position: absolute;
-        /* 移到屏幕中央 */
+        /* 参考定位的元素 */
         top: 50%;
         left: 50%;
         /* 以自身为参照点，向上向左移动50% */
